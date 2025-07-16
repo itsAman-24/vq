@@ -28,13 +28,12 @@ async function getJobController(req, res) {
     const candidates = await CandidateModel.find();
 
     const matchedCandidates = candidates
-      .filter((candidate) => candidate.experience >= job.minExperience)   // got all the matching candidates based on the minExpericce
       .map((candidate) => {
-        const matchedSkills = candidate.skills.filter((skill) =>
-          jobSkills.includes(skill)         // getting all the matching skills from the jobSkills
+        const matchedSkills = candidate.skills.filter(
+          (skill) => jobSkills.includes(skill)            // getting all the matching skills from the jobSkills
         );
         const matchedSkillsCount = matchedSkills.length;
-        const isSameLocation = candidate.location === job.location;
+        const isSameLocation = candidate.location == job.location;
 
         return {
           name: candidate.name,
@@ -45,13 +44,14 @@ async function getJobController(req, res) {
           isSameLocation,
         };
       })
+      .filter((candidate) => candidate.experience >= job.minExperience)
       .sort((a, b) => {
         if (b.matchedSkillsCount !== a.matchedSkillsCount) {
           return b.matchedSkillsCount - a.matchedSkillsCount;
         }
         return b.experience - a.experience;
       })
-      .slice(0, 5);
+      .slice(0, 4);
 
     return res.json({
       job: {
@@ -67,3 +67,5 @@ async function getJobController(req, res) {
 }
 
 export default getJobController;
+
+// requirement -> get the data if the skills are matching after that get the data if it's experince is matching or is more and after that i want to get the data of candidate whose location is this code fulfills these requirements
