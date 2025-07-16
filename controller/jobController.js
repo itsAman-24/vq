@@ -68,4 +68,3 @@ async function getJobController(req, res) {
 
 export default getJobController;
 
-// requirement -> get the data if the skills are matching after that get the data if it's experince is matching or is more and after that i want to get the data of candidate whose location is this code fulfills these requirements
